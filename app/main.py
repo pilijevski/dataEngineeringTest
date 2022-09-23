@@ -2,10 +2,13 @@ from fastapi import FastAPI
 
 from articles.services.article_service import ArticleService
 from articles.services.es_service import ElasticsearchService
+from configs.config import ConfigProvider
 from fn import init_articles
 
 app = FastAPI()
-es_service = ElasticsearchService("localhost", 9200, "elasticsearch", "elasticsearchpassword")
+
+config = ConfigProvider()
+es_service = ElasticsearchService(**config.provide_elasticsearch())
 article_service = ArticleService(es_service)
 
 # init
