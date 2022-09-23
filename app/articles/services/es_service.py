@@ -18,6 +18,9 @@ class ElasticsearchService:
     def add_document(self, document):
         self.es.index(index="test", document=document)
 
+    def delete_index(self,index):
+        self.es.options(ignore_status=[400,404]).indices.delete(index=index)
+
     def get_term_statistics(self, term: str):
         result = self.es.termvectors(index="test", doc={"text": term}, term_statistics=True, payloads=True,
                                      positions=True)
